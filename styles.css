@@ -1,0 +1,926 @@
+/* General style settings */
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: "liga" 1, "calt" 1; /* fix for Chrome */
+  --main-color: #000000;
+  --hover-color: #007800;
+  --background-color: #d8d8d8;
+  --font-family: Inter, sans-serif;
+}
+
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
+}
+
+/* Scrollbar styling specifically for WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 6px; /* Thin scrollbar width */
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px; /* Rounded edges only for the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 10px; /* Rounded edges only for the thumb */
+  border: none; /* No border to prevent interference */
+}
+
+/* Change tap highlight color to light gray */
+* {
+  -webkit-tap-highlight-color: rgba(200, 200, 200, 45%); /* Light gray shade */
+}
+
+html,
+body {
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  font-family: var(--font-family);
+  scrollbar-width: thin; /* Thin scrollbar for Firefox */
+  scrollbar-color: #c0c0c0 #f1f1f1; /* Thumb and track colors */
+}
+
+.container {
+  display: flex;
+  flex-direction: row; /* Ensures side-by-side layout */
+  width: 100%;
+  max-width: 1200px;
+  padding: 100px;
+  align-items: flex-start;
+  box-sizing: border-box;
+  justify-content: flex-start; /* Keep content aligned to the left */
+}
+
+.left-column {
+  flex-basis: 20%; /* Control width of the left column */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0; /* Remove any padding */
+  margin: 0; /* Remove any margin */
+  position: fixed; /* Make it fixed */
+  height: 100vh; /* Full height of the viewport */
+  background-color: var(--background-color); /* Same background as body */
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+
+.right-column {
+  margin-left: 20%; /* Adjust right column to account for the fixed left column */
+  flex-basis: 80%; /* Control width of the right column */
+  display: flex;
+  flex-direction: column; /* Stack items in column */
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0; /* Ensure left alignment */
+  width: 100%; /* Ensure full width */
+  background-color: var(--background-color); /* Same background as body */
+  position: relative; /* To control the position of elements */
+  z-index: 0; /* Ensure it doesn't interfere with the video section */
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-bottom: 3rem;
+  letter-spacing: 0.05em;
+  text-align: left; /* Ensure title stays aligned to the left */
+  text-transform: lowercase;
+  width: 100%; /* Ensure title takes up full width */
+  white-space: nowrap; /* Prevent title from wrapping to a new line */
+  z-index: 2; /* Ensure title stays on top */
+  position: relative;
+}
+
+.title-link {
+  text-decoration: none;
+  color: var(--main-color);
+}
+
+.title-link:hover {
+  color: var(--hover-color);
+  transition: color 0.2s ease;
+}
+
+/* Style the About section */
+.about-section {
+  padding: 20px 0 0 98px; /* Ensure top padding only */
+  text-align: left; /* Align text to the left */
+  font-size: 1rem;
+  line-height: 1.5; /* Increase readability */
+  text-transform: lowercase; /* Ensure all text is lowercase */
+  width: 100%; /* Take full width of the right column */
+  max-width: 500px; /* Limit the width of the text block */
+  font-weight: 200; /* Inter Extra Light */
+  margin: 0; /* Remove any margins */
+  position: relative; /* Ensure it respects the right-column's boundaries */
+}
+
+.about-section p {
+  margin-bottom: 1.5rem; /* Add space between paragraphs */
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu ul li {
+  margin-bottom: 0.5rem;
+  text-transform: lowercase;
+}
+
+.menu a {
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--main-color);
+  transition: color 0.3s ease;
+}
+
+.menu .dropdown-content a {
+  font-weight: 200;
+  padding-left: 0rem;
+  margin-bottom: 0rem;
+}
+
+.menu a:hover {
+  color: var(--hover-color);
+  transition: color 0.2s ease;
+}
+
+/* Dropdown styling */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  padding-top: 5px;
+}
+
+.dropdown-content.show {
+  transform: scaleY(1);
+  max-height: 82px;
+  opacity: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Optional: Ensure consistent spacing between all items */
+.dropdown-content a:first-child {
+  margin-top: 8px; /* Adds spacing between "works" and "features" */
+}
+
+/* Profile image styling */
+.profile-image img {
+  width: 600px;
+  height: 330px;
+  max-width: 100%; /* Make sure the image fits within the right column */
+  object-fit: contain;
+  margin-left: 100px; /* Move the image 20px to the right */
+  margin-top: 2.2rem;
+  display: block; /* Ensure it behaves like a block element */
+  position: relative; /* Ensure it stays in the correct place */
+  border-radius: 15px; /* Add rounded corners */
+}
+
+/* Burger Menu hidden on larger screens */
+.burger-menu {
+  display: none;
+  position: fixed;
+  right: 25px;
+  top: 40px;
+  z-index: 1001;
+}
+
+/* Close button styling */
+.close-menu {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 33px !important;
+  right: 23px !important;
+  cursor: pointer;
+  z-index: 1001;
+  transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+.close-menu:hover {
+  opacity: 0.5; /* Make the image more transparent on hover */
+}
+
+/* Slide-in menu hidden initially */
+.slide-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 300px;
+  height: 100%;
+  background-color: var(--background-color);
+  transition: right 0.4s ease-in-out;
+  z-index: 1000;
+  padding-left: 20px;
+  padding-top: 25px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  border-top-left-radius: 10px;
+}
+
+.slide-menu.open {
+  right: 0; /* Slide in from the right */
+}
+
+/* Hide burger menu when sidebar is open */
+.burger-menu.hide {
+  display: none;
+}
+
+/* Dark overlay when sidebar is open */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Darken background */
+  opacity: 0;
+  visibility: hidden;
+  z-index: 999;
+  transition: opacity 0.3s ease;
+}
+
+.overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.slide-menu ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+  padding-left: 0;
+}
+
+.slide-menu ul li {
+  margin: 13px 0; /* Same spacing for main menu items */
+  padding-left: 0; /* Align all menu items with the left */
+}
+
+.slide-menu ul li a {
+  text-decoration: none;
+  font-weight: 400; /* Match the font weight from the main menu */
+  font-size: 1rem;
+  color: var(--main-color);
+  transition: color 0.3s ease;
+}
+
+.slide-menu .dropdown-content a {
+  display: block;
+  font-weight: 200; /* Match the dropdown content font weight */
+  padding-left: 0;
+  margin-bottom: 13px; /* Adjust spacing between features, shorts, docs */
+}
+
+.slide-menu .dropdown-content {
+  display: block;
+  padding-top: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  padding-left: 0; /* Remove any extra padding */
+  margin-top: 0; /* Ensure consistent spacing with the main items */
+}
+
+.slide-menu .dropdown-content.show {
+  display: block; /* Ensure dropdown items are shown when clicked */
+  max-height: 96px;
+  opacity: 1;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Ensure consistent spacing between all items */
+.slide-menu .dropdown-content a:first-child {
+  margin-top: 13px; /* Spacing between "works" and "features" */
+}
+
+.slide-menu a:hover {
+  color: var(--hover-color);
+}
+
+.slide-menu .close-menu {
+  font-size: 2rem;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+/* Styling for the contact image */
+.contact-img {
+  width: 301px; /* Set the width of the image */
+  height: 130px; /* Set the height of the image */
+  object-fit: contain; /* Ensure the image fits properly without distortion */
+  margin-bottom: 7px; /* Add space between image and contact info */
+  border-radius: 15px; /* Add rounded corners */
+  display: block; /* Ensure it behaves like a block element */
+}
+
+.contact-info-container {
+  display: flex; /* Arrange items in a horizontal row */
+  justify-content: space-between; /* Evenly distribute items across the row */
+  align-items: center; /* Align items vertically in the center */
+  width: 301px; /* Make sure the row takes the full width */
+  margin: 0 auto; /* Ensure the container is centered */
+  padding: 0; /* Add some padding on the sides */
+  box-sizing: border-box; /* Ensure padding does not affect width */
+}
+
+/* Styling for the contact info */
+.contact-info {
+  font-style: italic; /* Make the font italic */
+  font-weight: 200; /* Extra light font weight */
+  font-size: 0.8rem; /* Adjust font size if needed */
+  white-space: nowrap; /* Prevent text from wrapping to a new line */
+  margin: 0; /* Space between the contact info items */
+  padding-left: 10px;
+  padding-right: 10px;
+  flex: 1 1 auto; /* Allow flex items to grow and shrink equally */
+  text-align: center; /* Center text */
+}
+
+.contact-info:first-child {
+  text-align: left; /* Align Instagram link to the left */
+}
+
+.contact-info:last-child {
+  text-align: right; /* Align phone link to the right */
+}
+
+/* Contact section padding adjustments */
+.contact-section {
+  padding: 0; /* Adjust space from the top */
+  margin-top: 2.2rem;
+  margin-left: 100px;
+}
+
+.contact-link {
+  position: relative; /* Required for pseudo-element positioning */
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit the same color as the surrounding text */
+  font-style: italic; /* Ensure it remains italic */
+  font-weight: 200; /* Extra light font weight */
+  transition: color 0.3s ease-in-out; /* Smooth transition for text color */
+}
+
+.contact-link::after {
+  content: "";
+  position: absolute;
+  width: 0; /* Start with no width (hidden) */
+  height: 0.5px; /* Thin underline */
+  bottom: 0; /* Position at the bottom */
+  left: 0; /* Align to the left */
+  background-color: #007800; /* Hover color for the underline */
+  transition: width 0.3s ease-in-out; /* Smooth transition for underline */
+}
+
+.contact-link:hover {
+  color: #007800; /* Change text color to green on hover */
+}
+
+.contact-link:hover::after {
+  width: 100%; /* Expand the underline on hover */
+}
+
+/* Video section styling */
+.video-section {
+  display: flex;
+  flex-direction: column; /* Stack videos in a column */
+  justify-content: flex-start; /* Align the videos to the top */
+  align-items: flex-start; /* Center the videos horizontally */
+  margin-left: 100px; /* Add left padding to align with content */
+  padding-right: 0; /* Ensure no right padding to prevent overflow */
+  margin-top: 2.2rem;
+  width: 85%; /* Ensure full width usage minus left padding */
+  box-sizing: border-box; /* Ensure padding is included in width calculation */
+  position: relative; /* Ensure it respects the boundaries of the left section */
+  z-index: 1; /* Ensure the video section doesn't overlap the navbar */
+}
+
+.video-container {
+  position: relative;
+  width: 100%; /* Make each video container full width */
+  max-width: 700px; /* Optional: Limit maximum width */
+  text-align: left; /* Center videos horizontally */
+  margin-bottom: 30px; /* Space between videos */
+}
+
+.video-container iframe {
+  width: 100%; /* Full width for each video */
+  height: 340px; /* Set height for the iframe videos */
+  max-width: 660px; /* Limit maximum width */
+  object-fit: cover; /* Ensure video scales correctly */
+  border: none; /* Remove any borders from the iframe */
+  border-radius: 15px; /* Add rounded corners */
+}
+
+.video-description {
+  font-style: italic;
+  font-weight: 200; /* Extra light font */
+  font-size: 0.75rem; /* Small font size */
+  margin-top: 5px;
+  margin-left: 5px;
+  text-align: left; /* Align description to the left */
+}
+
+.footer {
+  width: 100%;
+  padding-right: 0px;
+  font-weight: 200;
+  text-align: right;
+  background-color: transparent; /* Matches the site background */
+  font-size: 0.7rem;
+  color: #00000061;
+  position: fixed;
+  bottom: 5px;
+  right: 20px;
+  z-index: 1000;
+}
+
+/* Mobile and tablet responsive */
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: row; /* Maintain row layout so nav and image stay side by side */
+    justify-content: space-between; /* Ensure space between nav and image */
+    padding: 70px; /* Reduce padding for smaller screens */
+  }
+
+  button:active,
+  a:active {
+    color: #007800;
+    background-color: var(--background-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .left-column {
+    flex-basis: 30%; /* Adjust the width of the left column */
+    padding-left: 30px; /* Adjust the padding */
+  }
+
+  .right-column {
+    flex-basis: 70%; /* Adjust the width of the right column */
+    margin-left: 33%; /* Adjust right column to account for the fixed left column */
+  }
+
+  .about-section {
+    padding-left: 0; /* Remove left padding */
+    font-size: 1rem; /* Adjust font size for readability */
+    max-width: 90%; /* Ensure full width for content */
+  }
+
+  .profile-image img {
+    max-width: 100%; /* Ensure the image scales down */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: 0; /* Reset margin for proper alignment */
+    border-radius: 10px; /* Add rounded corners */
+  }
+
+  .contact-info-container {
+    padding: 0; /* Reduce side padding for smaller screens */
+  }
+
+  .contact-section {
+    padding: 0;
+    margin-top: 20px;
+    margin-left: 0;
+  }
+
+  .contact-info {
+    font-size: 0.8rem; /* Slightly reduce font size for tablets */
+  }
+
+  .contact-img {
+    margin-left: 0; /* Reset margin for proper alignment */
+    margin-top: 14px;
+    margin-bottom: 7px; /* Add space between image and contact info */
+    border-radius: 10px; /* Add rounded corners */
+  }
+
+  .video-section {
+    margin-left: 0; /* Reset left margin for smaller screens */
+    width: 95%; /* Full width for small screens */
+  }
+
+  .video-container {
+    width: 100%; /* Full width for each video */
+    margin-bottom: 20px; /* Space between videos */
+  }
+
+  .video-container iframe {
+    height: 300px; /* Adjust height for smaller screens */
+    max-width: 100%; /* Ensure full width on smaller screens */
+    border-radius: 10px; /* Add rounded corners */
+  }
+
+  .video-description {
+    font-style: italic;
+    font-weight: 200; /* Extra light font */
+    font-size: 0.6rem; /* Small font size */
+    margin-top: 4px;
+    margin-left: 4px;
+    text-align: left; /* Align description to the left */
+  }
+
+  .footer {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Large phone/small tablet */
+
+  .right-column {
+    margin-left: 0; /* Remove margin since left column is hidden */
+    width: 100%; /* Make right column full width */
+    padding-top: 45px; /* Add padding to avoid overlap with the burger menu */
+  }
+
+  .title {
+    font-size: 1.65rem;
+    font-weight: 500 !important;
+    letter-spacing: 0.03em;
+    text-align: center; /* Ensure the text is aligned to the center */
+    margin: 0 auto; /* Horizontally center the title */
+    padding-top: 15px; /* Add some space from the top */
+    padding-left: 0; /* Remove left padding */
+    padding-right: 0; /* Remove right padding */
+    width: 100%; /* Make sure it takes full width */
+  }
+
+  button:active,
+  a:active {
+    color: #007800;
+    background-color: var(--background-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .about-section {
+    font-size: 0.9rem; /* Slightly reduce font size for smaller screens */
+    padding-left: 0; /* Remove any left padding */
+    padding-right: 0; /* Remove right padding */
+    padding-top: 20px;
+    max-width: 100%; /* Ensure full width for content */
+    width: 100%; /* Take full width */
+  }
+
+  .left-column {
+    padding: 0; /* Remove any left padding */
+    margin: 0;
+    height: 0;
+    background-color: transparent;
+  }
+
+  .menu {
+    display: none; /* Hide the menu on smaller devices */
+  }
+
+  .burger-menu {
+    display: block; /* Show the burger menu icon */
+    position: fixed;
+    right: 20px;
+    top: 40px;
+    z-index: 1001; /* Keep it on top */
+    cursor: pointer;
+  }
+
+  .burger-menu img {
+    width: 25px;
+    height: auto;
+    transition: opacity 0.3s ease; /* Smooth transition for hover */
+  }
+
+  .burger-menu img:hover {
+    opacity: 0.5; /* Reduce opacity on hover */
+  }
+
+  .container {
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start; /* Align elements to the left */
+  }
+
+  /* Profile image styling */
+  .profile-image {
+    display: flex; /* Make this container a flexbox */
+    justify-content: center; /* Center the image horizontally */
+    align-items: center; /* Center the image vertically */
+    height: 100%; /* Take the full height of the right column (or adjust as needed) */
+    width: 100%; /* Ensure it takes the full width of the column */
+    border-radius: 5px; /* Add rounded corners */
+  }
+
+  .profile-image img {
+    width: 100%;
+    max-width: 100%; /* Ensure the image fits within the right column */
+    height: auto;
+    object-fit: contain; /* Ensure the image doesn’t distort */
+    margin: 2.5rem auto; /* Center the image with top margin for spacing */
+    display: block; /* Ensure it behaves like a block element */
+  }
+
+  /* Contact section styling */
+  .contact-section {
+    padding: 0;
+    margin: 0 auto; /* Horizontally center the section */
+    width: 100%; /* Take up full width */
+    max-width: 100%; /* Prevent the section from exceeding the container width */
+    text-align: center; /* Center text inside the section */
+  }
+
+  /* Contact image styling (ensure it behaves like the profile image) */
+  .contact-img {
+    width: 100%; /* Ensure the image is responsive */
+    max-width: 60%; /* Ensure it doesn’t exceed the container width */
+    height: 120px; /* Set a fixed height for small screens to crop the image */
+    object-fit: cover; /* Ensure the image doesn’t distort */
+    border-radius: 5px; /* Add rounded corners */
+    overflow: hidden; /* Ensure any overflow is hidden */
+    margin: 2.5rem auto 0; /* Adds 2.5rem top margin and centers the image horizontally */
+    display: block; /* Ensures it is centered as a block element */
+  }
+
+  /* Flex container for contact info */
+  .contact-info-container {
+    display: flex; /* Arrange items horizontally in a row */
+    justify-content: space-between; /* Distribute the space evenly between items */
+    align-items: center; /* Align items vertically */
+    width: 60%; /* Make sure the container takes the full width of its parent */
+    padding-left: 20px; /* Remove any padding */
+    padding-right: 20px;
+    padding-top: 5px;
+    margin: 0 auto; /* Remove extra margins */
+    box-sizing: border-box; /* Include padding and border in the element's width */
+  }
+
+  /* Contact info styling */
+  .contact-info {
+    font-size: 0.75rem; /* Adjust font size for smaller screens */
+    margin: 0; /* Ensure no unwanted spacing */
+    padding: 0; /* Ensure no padding */
+    white-space: nowrap; /* Prevent text wrapping */
+    text-align: center; /* Center the text */
+    flex: 1; /* Ensure each item takes up equal space */
+  }
+
+  .contact-info:first-child {
+    text-align: left; /* Align Instagram link to the left */
+  }
+
+  .contact-info:last-child {
+    text-align: right; /* Align phone link to the right */
+  }
+  /* Optional: styling for hover states */
+  .contact-link:hover {
+    color: #007800;
+  }
+
+  .video-section {
+    flex-direction: column; /* Stack videos vertically on smaller screens */
+    align-items: center;
+    width: 100%;
+    padding-top: 5px;
+  }
+
+  .video-container {
+    width: 100%; /* Full width for each video on mobile */
+    margin-bottom: 10px; /* Space between the videos */
+    max-width: 400px; /* Set a max width for the video to prevent stretching */
+  }
+
+  .video-container iframe {
+    height: 210px; /* Set the video height */
+    border-radius: 5px; /* Add rounded corners */
+    max-width: 400px; /* Limit the width of the video to prevent stretching */
+  }
+
+  .video-description {
+    font-style: italic;
+    font-weight: 200; /* Extra light font */
+    font-size: 0.5rem; /* Small font size */
+    margin-top: 2px;
+    margin-left: 3px;
+    text-align: left; /* Align description to the left */
+  }
+
+  .footer {
+    font-size: 0.5rem;
+    bottom: 5px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 450px) {
+  /* Large phone/small tablet */
+
+  .right-column {
+    margin-left: 0; /* Remove margin since left column is hidden */
+    width: 100%; /* Make right column full width */
+    padding-top: 45px; /* Add padding to avoid overlap with the burger menu */
+  }
+
+  .title {
+    font-size: 1.65rem;
+    font-weight: 500 !important;
+    letter-spacing: 0.03em;
+    text-align: center; /* Ensure the text is aligned to the center */
+    margin: 0 auto; /* Horizontally center the title */
+    padding-top: 15px; /* Add some space from the top */
+    padding-left: 0; /* Remove left padding */
+    padding-right: 0; /* Remove right padding */
+    width: 100%; /* Make sure it takes full width */
+  }
+
+  button:active,
+  a:active {
+    color: #007800;
+    background-color: var(--background-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .about-section {
+    font-size: 0.9rem; /* Slightly reduce font size for smaller screens */
+    padding-left: 0; /* Remove any left padding */
+    padding-right: 0; /* Remove right padding */
+    padding-top: 20px;
+    max-width: 100%; /* Ensure full width for content */
+    width: 100%; /* Take full width */
+  }
+
+  .left-column {
+    padding: 0; /* Remove any left padding */
+    margin: 0;
+    height: 0;
+    background-color: transparent;
+  }
+
+  .menu {
+    display: none; /* Hide the menu on smaller devices */
+  }
+
+  .burger-menu {
+    display: block; /* Show the burger menu icon */
+    position: fixed;
+    right: 20px;
+    top: 40px;
+    z-index: 1001; /* Keep it on top */
+    cursor: pointer;
+  }
+
+  .burger-menu img {
+    width: 25px;
+    height: auto;
+    transition: opacity 0.3s ease; /* Smooth transition for hover */
+  }
+
+  .burger-menu img:hover {
+    opacity: 0.5; /* Reduce opacity on hover */
+  }
+
+  .container {
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start; /* Align elements to the left */
+  }
+
+  /* Profile image styling */
+  .profile-image {
+    display: flex; /* Make this container a flexbox */
+    justify-content: center; /* Center the image horizontally */
+    align-items: center; /* Center the image vertically */
+    height: 100%; /* Take the full height of the right column (or adjust as needed) */
+    width: 100%; /* Ensure it takes the full width of the column */
+    border-radius: 5px; /* Add rounded corners */
+  }
+
+  .profile-image img {
+    width: 100%;
+    max-width: 100%; /* Ensure the image fits within the right column */
+    height: auto;
+    object-fit: contain; /* Ensure the image doesn’t distort */
+    margin: 2.5rem auto; /* Center the image with top margin for spacing */
+    display: block; /* Ensure it behaves like a block element */
+  }
+
+  /* Contact section styling */
+  .contact-section {
+    padding: 0;
+    margin: 0 auto; /* Horizontally center the section */
+    width: 100%; /* Take up full width */
+    max-width: 100%; /* Prevent the section from exceeding the container width */
+    text-align: center; /* Center text inside the section */
+  }
+
+  /* Contact image styling (ensure it behaves like the profile image) */
+  .contact-img {
+    width: 100%; /* Ensure the image is responsive */
+    max-width: 100%; /* Ensure it doesn’t exceed the container width */
+    height: 120px; /* Set a fixed height for small screens to crop the image */
+    object-fit: cover; /* Ensure the image doesn’t distort */
+    border-radius: 5px; /* Add rounded corners */
+    margin-top: 2.5rem; /* Space at the top and center it */
+    overflow: hidden; /* Ensure any overflow is hidden */
+  }
+
+  /* Flex container for contact info */
+  .contact-info-container {
+    display: flex; /* Arrange items horizontally in a row */
+    justify-content: space-between; /* Distribute the space evenly between items */
+    align-items: center; /* Align items vertically */
+    width: 100%; /* Make sure the container takes the full width of its parent */
+    padding-left: 20px; /* Remove any padding */
+    padding-right: 20px;
+    padding-top: 5px;
+    margin: 0; /* Remove extra margins */
+    box-sizing: border-box; /* Include padding and border in the element's width */
+  }
+
+  /* Contact info styling */
+  .contact-info {
+    font-size: 0.75rem; /* Adjust font size for smaller screens */
+    margin: 0; /* Ensure no unwanted spacing */
+    padding: 0; /* Ensure no padding */
+    white-space: nowrap; /* Prevent text wrapping */
+    text-align: center; /* Center the text */
+    flex: 1; /* Ensure each item takes up equal space */
+  }
+
+  .contact-info:first-child {
+    text-align: left; /* Align Instagram link to the left */
+  }
+
+  .contact-info:last-child {
+    text-align: right; /* Align phone link to the right */
+  }
+  /* Optional: styling for hover states */
+  .contact-link:hover {
+    color: #007800;
+  }
+
+  .video-section {
+    flex-direction: column; /* Stack videos vertically on smaller screens */
+    align-items: flex-start;
+    width: 100%;
+    padding-top: 5px;
+  }
+
+  .video-container {
+    width: 100%; /* Full width for each video on mobile */
+    margin-bottom: 10px; /* Space between the videos */
+    max-width: 400px; /* Set a max width for the video to prevent stretching */
+  }
+
+  .video-container iframe {
+    height: 210px; /* Set the video height */
+    border-radius: 5px; /* Add rounded corners */
+    max-width: 400px; /* Limit the width of the video to prevent stretching */
+  }
+
+  .video-description {
+    font-style: italic;
+    font-weight: 200; /* Extra light font */
+    font-size: 0.5rem; /* Small font size */
+    margin-top: 2px;
+    margin-left: 3px;
+    text-align: left; /* Align description to the left */
+  }
+
+  .footer {
+    font-size: 0.5rem;
+    bottom: 5px;
+    right: 20px;
+  }
+}
